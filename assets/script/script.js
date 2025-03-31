@@ -56,7 +56,7 @@ class Transport {
 // создать класс Car, который наследует от Transport.Этот класс должен содержать метод getDoorsCount(), который возвращает количество дверей;
 class Car extends Transport {
   constructor(type, price, brand, doors) {
-    super(type, price, brand, doors);
+    super(type, price, brand);
     this.doors = doors;
   }
   getDoorsCount() {
@@ -69,7 +69,7 @@ class Car extends Transport {
 // создать класс Bike, который наследует от Transport.Этот класс должен содержать метод getMaxSpeed(), который возвращает максимальную скорость мотоцикла.
 class Bike extends Transport {
   constructor(type, price, brand, maxSpeed) {
-    super(type, price, brand, maxSpeed);
+    super(type, price, brand);
     this.maxSpeed = maxSpeed;
   }
 
@@ -80,8 +80,9 @@ class Bike extends Transport {
   }
 }
 
-// функция для отображения карточки транспорта
-function drawTransportCard(transport) {
+const displayTransport = () => {
+  const sectionContainer = document.querySelector('.section-container');
+
   //создаем элемент
   const newElementDiv = document.createElement('div');
   // присваиваем ему класс
@@ -100,28 +101,34 @@ function drawTransportCard(transport) {
 
   const brandElement = document.createElement('p');
   brandElement.classList.add('card-content__brand');
-  brandElement.textContent = this.getInfo();
+  brandElement.textContent = transport.getInfo();
   cardContent.appendChild(typeElement);
 
   const priceElement = document.createElement('p');
   priceElement.classList.add('card-content__price');
-  priceElement.textContent = this.getPrice();
+  priceElement.textContent = transport.getPrice();
   cardContent.appendChild(priceElement);
 
-  if (transport instanceof Car) {
-    const doorsElement = document.createElement('p');
-    doorsElement.classList.add('card-content__doors');
-    doorsElement.textContent = `Количество дверей: ${transport.getDoorsCount()}`;
-    cardContent.appendChild(doorsElement);
-  } else if (transport instanceof Bike) {
-    const speedElement = document.createElement('p');
-    speedElement.classList.add('card-content__max-speed');
-    speedElement.textContent = `Максимальная скорость: ${transport.getMaxSpeed()} км/ч`;
-    cardContent.appendChild(speedElement);
-  }
+  const doorsElement = document.createElement('p');
+  doorsElement.classList.add('card-content__doors');
+  doorsElement.textContent = `Количество дверей: ${transport.getDoorsCount()}`;
+  cardContent.appendChild(priceElement);
+
+  const maxSpeedElement = document.createElement('p');
+  maxSpeedElement.classList.add('card-content__max-speed');
+  maxSpeedElement.textContent = `Максимальная скорость: ${transport.getMaxSpeed()} км/ч`;
+  cardContent.appendChild(maxSpeedElement);
 
   newElementDiv.appendChild(cardContent);
-
-  // вывод карточки на страницу 
-  document.querySelector('.section-container').appendChild(newElementDiv);
+  sectionContainer.appendChild(newElementDiv);
 }
+
+// добавление объектов на основе массива data
+data.map(item => {
+  if (item.type === 'car') {
+    return new Car(item.price, item.brand, item.doors);
+  } else if (item.type === 'bike') {
+    return new Bike(item.price, item.brand, item.maxSpeed);
+  }
+  displayTransport();
+});
