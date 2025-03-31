@@ -1,3 +1,6 @@
+// Нужно написать код, который отвечает за отображение на сайте информации о транспорте и цене.
+
+// Объект, с которым предстоит работать:
 const data = [
   {
     id: 1,
@@ -15,7 +18,7 @@ const data = [
     price: 2800000,
     image: '<https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/2019_Mercedes-Benz_E220d_SE_Automatic_2.0_Front.jpg/300px-2019_Mercedes-Benz_E220d_SE_Automatic_2.0_Front.jpg>'
   },
-	{
+  {
     id: 3,
     type: 'bike',
     brand: 'Harley-Davidson',
@@ -33,8 +36,92 @@ const data = [
   }
 ];
 
-const transportInfo = (data) => {
-  data.forEach(item => {
-    console.log(`Тип: ${item.type}, Марка: ${item.brand}, Цена: ${item.price} руб`);
-  });
+// Нужно:
+
+// создать класс Transport, у него есть свойства: type, price, brand и два метода getInfo() и getPrice();
+class Transport {
+  constructor(type, price, brand) {
+    this.type = type;
+    this.price = price;
+    this.brand = brand;
+  }
+  getInfo() {
+    return `${this.type}, ${this.brand}`;
+  }
+  getPrice() {
+    return this.price.toLocaleString('ru-RU') + ' ₽';
+  }
+}
+
+// создать класс Car, который наследует от Transport.Этот класс должен содержать метод getDoorsCount(), который возвращает количество дверей;
+class Car extends Transport {
+  constructor(type, price, brand, doors) {
+    super(type, price, brand, doors);
+    this.doors = doors;
+  }
+  getDoorsCount() {
+    return {
+      doors: this.doors,
+    }
+  }
+}
+
+// создать класс Bike, который наследует от Transport.Этот класс должен содержать метод getMaxSpeed(), который возвращает максимальную скорость мотоцикла.
+class Bike extends Transport {
+  constructor(type, price, brand, maxSpeed) {
+    super(type, price, brand, maxSpeed);
+    this.maxSpeed = maxSpeed;
+  }
+
+  getMaxSpeed() {
+    return {
+      maxSpeed: this.maxSpeed,
+    }
+  }
+}
+
+// функция для отображения карточки транспорта
+function drawTransportCard(transport) {
+  //создаем элемент
+  const newElementDiv = document.createElement('div');
+  // присваиваем ему класс
+  newElementDiv.classList.add('card-list');
+
+  //  создаем новый элемент img
+  let newElementImg = document.createElement('img');
+  // задаем картинке параметры
+  newElementImg.src = this.image;
+  newElementImg.alt = 'Авто';
+  newElementImg.classList.add('card-list__image');
+  newElementDiv.appendChild(newElementImg);
+
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content');
+
+  const brandElement = document.createElement('p');
+  brandElement.classList.add('card-content__brand');
+  brandElement.textContent = this.getInfo();
+  cardContent.appendChild(typeElement);
+
+  const priceElement = document.createElement('p');
+  priceElement.classList.add('card-content__price');
+  priceElement.textContent = this.getPrice();
+  cardContent.appendChild(priceElement);
+
+  if (transport instanceof Car) {
+    const doorsElement = document.createElement('p');
+    doorsElement.classList.add('card-content__doors');
+    doorsElement.textContent = `Количество дверей: ${transport.getDoorsCount()}`;
+    cardContent.appendChild(doorsElement);
+  } else if (transport instanceof Bike) {
+    const speedElement = document.createElement('p');
+    speedElement.classList.add('card-content__max-speed');
+    speedElement.textContent = `Максимальная скорость: ${transport.getMaxSpeed()} км/ч`;
+    cardContent.appendChild(speedElement);
+  }
+
+  newElementDiv.appendChild(cardContent);
+
+  // вывод карточки на страницу 
+  document.querySelector('.section-container').appendChild(newElementDiv);
 }

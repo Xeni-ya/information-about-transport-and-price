@@ -1,6 +1,4 @@
-# week17-information-about-transport-and-price
-Задание №2 на семьнадцатой неделе обучения 
-
+# information-about-transport-and-price
 
 Нужно написать код, который отвечает за отображение на сайте информации о транспорте и цене. Вам нужно:
 
