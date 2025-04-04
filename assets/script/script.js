@@ -80,7 +80,7 @@ class Bike extends Transport {
   }
 }
 
-const displayTransport = () => {
+const displayTransport = (transport) => {
   const sectionContainer = document.querySelector('.section-container');
 
   //создаем элемент
@@ -91,7 +91,7 @@ const displayTransport = () => {
   //  создаем новый элемент img
   let newElementImg = document.createElement('img');
   // задаем картинке параметры
-  newElementImg.src = this.image;
+  newElementImg.src = transport.image;
   newElementImg.alt = 'Авто';
   newElementImg.classList.add('card-list__image');
   newElementDiv.appendChild(newElementImg);
@@ -101,12 +101,12 @@ const displayTransport = () => {
 
   const brandElement = document.createElement('p');
   brandElement.classList.add('card-content__brand');
-  brandElement.textContent = transport.getInfo();
+  brandElement.textContent = `Тип: ${transport.getInfo()}`;
   cardContent.appendChild(typeElement);
 
   const priceElement = document.createElement('p');
   priceElement.classList.add('card-content__price');
-  priceElement.textContent = transport.getPrice();
+  priceElement.textContent = `Цена: ${transport.getPrice()}`;
   cardContent.appendChild(priceElement);
 
   const doorsElement = document.createElement('p');
@@ -124,11 +124,12 @@ const displayTransport = () => {
 }
 
 // добавление объектов на основе массива data
-data.map(item => {
+data.forEach(item => {
   if (item.type === 'car') {
     return new Car(item.price, item.brand, item.doors);
   } else if (item.type === 'bike') {
     return new Bike(item.price, item.brand, item.maxSpeed);
   }
-  displayTransport();
 });
+
+displayTransport(transport);
